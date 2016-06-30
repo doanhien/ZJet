@@ -17,6 +17,7 @@ float EleR9Full5x5_, EleE3x3Full5x5_, EleE5x5Full5x5_;
 float NClusters_, EleSeedEta_, EleSeedPhi_;
 float EleSeedCryEta_, EleSeedCryPhi_, EleSeedCryIeta_, EleSeedCryIphi_;
 float EleSeedEnToRawEn_, EleESEnToRawEn_;
+float hiBin_;
 
 static TMVA::Reader* tmvaReader[2] = {NULL, NULL};
 
@@ -45,6 +46,7 @@ void initreader() {
     tmvaReader[iBE]->AddVariable("eleSeedEn/eleSCRawEn", &EleSeedEnToRawEn_);
     tmvaReader[iBE]->AddVariable("eleSeedEta",  &EleSeedEta_);
     tmvaReader[iBE]->AddVariable("eleSeedPhi",  &EleSeedPhi_);
+    tmvaReader[iBE]->AddVariable("hiBin",       &hiBin_);
 
     //book method, read weight files
     if (iBE == 0)
@@ -77,6 +79,7 @@ float ElectronRegressionTMVA(int i) {
   EleSeedEnToRawEn_ = eleSeedEn[i]/eleSCRawEn[i];
   EleSeedEta_ = eleSeedEta[i];
   EleSeedPhi_ = eleSeedPhi[i];
+  hiBin_ = hiBin;
 
   //get regression
   return (tmvaReader[iBE]->EvaluateRegression("BDTG"))[0];
